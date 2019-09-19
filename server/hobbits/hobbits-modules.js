@@ -17,7 +17,9 @@ async function update(id, changes) {
 }
 
 function remove(id) {
-  return null;//need to implement using TDD
+    return db('hobbits')
+    .where('id', id)
+    .del()
 }
 
 function getAll() {
@@ -25,5 +27,5 @@ function getAll() {
 }
 
 function findById(id) {
-  return null;//need to implement using TDD
+    return null
 }

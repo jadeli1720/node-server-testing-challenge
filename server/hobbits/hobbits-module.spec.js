@@ -9,31 +9,42 @@ describe('hobbits model', () => {
 
     //testing the environment
     it('should set the environment to testing', () => {
-        
+
         expect(process.env.DB_ENV).toBe('testing')//knexfile.js line 20 
     });
-    
+
     //creating a hobbit
     describe('insert()', () => {
-        it('should insert hobbits into the db', async() => {
+        it('should insert hobbits into the db', async () => {
             await Hobbits.insert({ name: 'Lily' });
             let hobbits = await db('hobbits');
             expect(hobbits).toHaveLength(1);
-        })
-    });
-    //Checking to see what is returned after insertion
-    it('should insert hobbits into the db', async() => {
-        //insert a record
-        const [id] = await Hobbits.insert({name: 'Lily'});
-        //checking against the database
-        let hobbit = await db('hobbits')
-            .where({ id })
-            .first()
+        });
+        //Checking to see what is returned after insertion
+        it('should insert hobbits into the db', async () => {
+            //insert a record
+            const [id] = await Hobbits.insert({ name: 'Lily' });
+            //checking against the database
+            let hobbit = await db('hobbits')
+                .where({ id })
+                .first()
 
-        //assert the record was inserted
-        // expect(hobbit.name).toBe('Thomas');
-        expect(hobbit.name).toBe('Lily');
-        
+            //assert the record was inserted
+            // expect(hobbit.name).toBe('Thomas');
+            expect(hobbit.name).toBe('Lily');
+
+        });
     });
+
+    //removing a hobbit:
+    describe('del()', () => {
+        it('should remove hobbit from db', async () => {
+          await Hobbits.remove({name: 'Lily'})
+          let hobbits = await db('hobbits');
+            //expect(hobbits).toHaveLength(2);//failed--> Check false positive
+            expect(hobbits).toHaveLength(0)//Works
+        })
+    })
+
 
 })
